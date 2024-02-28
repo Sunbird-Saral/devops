@@ -1,0 +1,5 @@
+apiVersion: v2
+name: saral-backend
+description: A Helm chart for deploying the Saral Backend application
+version: 0.1.0
+

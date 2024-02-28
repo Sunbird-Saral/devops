@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "saral-backend.fullname" . }}
+spec:
+  replicas: {{ .Values.replicas.Count }}
+  selector:
+    matchLabels:
+      app: saral-backend
+  template:
+    metadata:
+      labels:
+        app: saral-backend
+    spec:
+      containers:
+        - name: saral-backend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 3005
+          env:
+            - name: PROFILE
+              value: "{{ .Values.profile.environment }}"
+            - name: PORT
+              value: "3005"
+            - name: MONGODB_URL
+              value: "{{ .Values.docdb.connection }}"
+            - name: JWT_SECRET
+              value: SARALDATA_NODE
+            - name: MONGODB_POOL_SIZE
+              value: "50"
+            - name: MIN_MONGODB_POOL_SIZE
+              value: "30"
+            - name: WHITELIST_DOMAINS
+              value: "{{ .Values.whitelist.domain }}"
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+

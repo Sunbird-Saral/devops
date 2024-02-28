@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saral-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saral-backend
+  template:
+    metadata:
+      labels:
+        app: saral-backend
+    spec:
+      containers:
+      - name: saral-backend
+        image: jonathanrogers/saral-backend:1.6.2
+        ports:
+        - containerPort: 3005
+        env:
+        - name: PROFILE
+          value: "dev"
+        - name: PORT
+          value: "3005"
+        - name: MONGODB_URL
+          value: "mongodb://13.234.79.58:27017/prod_saral"
+        - name: JWT_SECRET
+          value: SARALDATA_NODE
+        - name: MONGODB_POOL_SIZE
+          value: "50"
+        - name: MIN_MONGODB_POOL_SIZE
+          value: "30"
+        - name: WHITELIST_DOMAINS
+          value: "[http://saral.tekdinext.com]"  
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+          requests:
+            cpu: 1000m 
+            memory: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: saral-backend
+    labels:
+        app: saral-backend
+    annotations:
+      alb.ingress.kubernetes.io/target-type: ip
+spec:
+  type: NodePort
+  selector:
+    app: saral-backend
+  ports:
+    - port: 3005
+      targetPort: 3005

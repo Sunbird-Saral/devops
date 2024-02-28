@@ -1,0 +1,9 @@
+replicaCount: 1
+
+
+service:
+  type: NodePort
+  port: 3005
+
+ingress:
+  certificateARN: arn:aws:acm:ap-south-1:058264287513:certificate/d3aca202-2791-4c99-9407-db15f51900e3

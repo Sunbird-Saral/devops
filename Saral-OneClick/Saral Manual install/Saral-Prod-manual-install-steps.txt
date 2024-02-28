@@ -1,0 +1,53 @@
+
+#Install EKSCtl
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+sudo mv /tmp/eksctl /usr/local/bin
+
+eksctl version
+
+#Install Kubectl
+sudo snap install kubectl --classic
+
+
+# Install AWS CLI
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+aws configure
+
+# Create EKS Fargate Cluster
+eksctl create cluster --name saral-prod --without-nodegroup --version 1.29 --fargate
+
+eksctl utils associate-iam-oidc-provider --cluster saral-prod  --approve
+
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
+    
+eksctl create iamserviceaccount --cluster=saral-prod --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::"$(aws sts get-caller-identity --query Account --output text)":policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+
+
+#Install Helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+
+chmod 700 get_helm.sh
+
+./get_helm.sh
+
+helm repo add eks https://aws.github.io/eks-charts
+
+helm repo update
+
+#After this go to the following link
+
+#https://ap-south-1.console.aws.amazon.com/vpcconsole/home?region=ap-south-1#vpcs
+
+#find VPC name with saral-prod in it and Copy its id and paste below  <paste YOUR_EKS VPC ID here>
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=saral-prod --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set vpcId=<paste YOUR_EKS VPC ID here>
+
+kubectl get deployment -n kube-system aws-load-balancer-controller
+
+
+
