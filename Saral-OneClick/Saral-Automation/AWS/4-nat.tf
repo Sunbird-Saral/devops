@@ -2,13 +2,13 @@ resource "aws_eip" "nat" {
   vpc = true
 
   tags = {
-    Name = "nat"
+    Name = "saral-nat"
   }
 }
 
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public-ap-south-1a.id
+  subnet_id     = aws_subnet.public-subnet-a.id
 
   tags = {
     Name = "nat"

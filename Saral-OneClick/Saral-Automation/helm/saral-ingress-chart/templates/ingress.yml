@@ -1,11 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "saral-ingress.fullname" . }}
+  name: grafana-ingress
+  namespace: grafana  # Specify the namespace for Grafana
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.certificateARN }}
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:058264287513:certificate/25fe3498-5086-4e47-bb34-b1381db4aa53
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 spec:
@@ -13,10 +14,34 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
-            pathType: Exact
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: saral-backend-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:058264287513:certificate/d3aca202-2791-4c99-9407-db15f51900e3
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: saral-backend
                 port:
-                  number: {{ .Values.service.port }}
+                  number: 3005
+

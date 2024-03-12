@@ -24,33 +24,33 @@ resource "aws_route_table" "public" {
   }
 }
 
-resource "aws_route_table_association" "private-ap-south-1a" {
-  subnet_id      = aws_subnet.private-ap-south-1a.id
+resource "aws_route_table_association" "private-subnet-a" {
+  subnet_id      = aws_subnet.private-subnet-a.id
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_route_table_association" "private-ap-south-1b" {
-  subnet_id      = aws_subnet.private-ap-south-1b.id
+resource "aws_route_table_association" "private-subnet-b" {
+  subnet_id      = aws_subnet.private-subnet-b.id
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_route_table_association" "public-ap-south-1a" {
-  subnet_id      = aws_subnet.public-ap-south-1a.id
+resource "aws_route_table_association" "public-subnet-a" {
+  subnet_id      = aws_subnet.public-subnet-a.id
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table_association" "public-ap-south-1b" {
-  subnet_id      = aws_subnet.public-ap-south-1b.id
+resource "aws_route_table_association" "public-subnet-b" {
+  subnet_id      = aws_subnet.public-subnet-b.id
   route_table_id = aws_route_table.public.id
 }
 
 ####NEW
-resource "aws_route_table_association" "docdb-private-ap-south-1a" {
-  subnet_id      = aws_subnet.docdb-private-ap-south-1a.id
+resource "aws_route_table_association" "docdb-private-subnet-a" {
+  subnet_id      = aws_subnet.docdb-private-subnet-a.id
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_route_table_association" "docdb-private-ap-south-1b" {
-  subnet_id      = aws_subnet.docdb-private-ap-south-1b.id
+resource "aws_route_table_association" "docdb-private-subnet-b" {
+  subnet_id      = aws_subnet.docdb-private-subnet-b.id
   route_table_id = aws_route_table.private.id
 }

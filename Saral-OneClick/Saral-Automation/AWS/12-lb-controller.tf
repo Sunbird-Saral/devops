@@ -32,10 +32,10 @@ resource "helm_release" "aws-load-balancer-controller" {
   }
 
   # EKS Fargate specific
-  set {
-    name  = "region"
-    value = "ap-south-1"
-  }
+#  set {
+#    name  = "region"
+#    value = "ap-south-1"
+#  }
 
   set {
     name  = "vpcId"
