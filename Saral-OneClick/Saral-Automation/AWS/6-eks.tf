@@ -34,10 +34,10 @@ resource "aws_eks_cluster" "cluster" {
     public_access_cidrs     = ["0.0.0.0/0"]
 
     subnet_ids = [
-      aws_subnet.private-ap-south-1a.id,
-      aws_subnet.private-ap-south-1b.id,
-      aws_subnet.public-ap-south-1a.id,
-      aws_subnet.public-ap-south-1b.id
+      aws_subnet.private-subnet-a.id,
+      aws_subnet.private-subnet-b.id,
+      aws_subnet.public-subnet-a.id,
+      aws_subnet.public-subnet-b.id
     ]
   }
 
@@ -48,6 +48,6 @@ resource "null_resource" "update_kubeconfig" {
   depends_on = [aws_eks_cluster.cluster]
 
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name ${var.cluster_name} --region ap-south-1"
+    command = "aws eks update-kubeconfig --name ${var.cluster_name} "
   }
 }

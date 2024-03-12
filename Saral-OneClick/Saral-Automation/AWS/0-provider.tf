@@ -1,9 +1,9 @@
 provider "aws" {
-  region = "ap-south-1"
+
 }
 
 variable "cluster_name" {
-  default = "Saral-Prod"
+  default = "Saral"
 }
 
 variable "cluster_version" {
@@ -20,6 +20,10 @@ variable "docdb_password" {
   type        = string
 }
 
+variable "ssh_key" {
+  description = "The ssh key"
+  type        = string
+}
 
 terraform {
   required_providers {

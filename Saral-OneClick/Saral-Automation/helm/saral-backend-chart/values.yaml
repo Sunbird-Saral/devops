@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: jonathanrogers/saral-backend
-  tag: "1.6.2"
+  tag: "v1.7.0"
   pullPolicy: IfNotPresent
 
 service:
@@ -17,7 +17,7 @@ profile:
   environment: prod
 
 docdb:
-  connection: mongodb://saral_user:MX9QsFla7bZd6t@saral-db.cluster-cfckukum4zxf.ap-south-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false/prod_saral
+  connection: mongodb://saral_user:MX9QsFla7bZd6t@saral-db.cluster-cfckukum4zxf.ap-south-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
 
 whitelist:
-  domain: [https://saral.tekdinext.com, http://saral.tekdinext.com]
+  domain: ['https://saral.tekdinext.com']

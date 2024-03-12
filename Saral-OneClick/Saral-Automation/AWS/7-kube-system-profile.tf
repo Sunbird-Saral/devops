@@ -25,8 +25,8 @@ resource "aws_eks_fargate_profile" "kube-system" {
 
 
   subnet_ids = [
-    aws_subnet.private-ap-south-1a.id,
-    aws_subnet.private-ap-south-1b.id,
+    aws_subnet.private-subnet-a.id,
+    aws_subnet.private-subnet-b.id,
   ]
 
   selector {

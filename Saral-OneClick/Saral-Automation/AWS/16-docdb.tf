@@ -23,10 +23,10 @@ resource "aws_docdb_cluster" "doc-db" {
 resource "aws_docdb_subnet_group" "db" {
   name       = "doc-db-subnet-group"
     subnet_ids = [
-      aws_subnet.private-ap-south-1a.id,
-      aws_subnet.private-ap-south-1b.id,
-      aws_subnet.docdb-private-ap-south-1a.id,  # Newly added subnet
-      aws_subnet.docdb-private-ap-south-1b.id,
+      aws_subnet.private-subnet-a.id,
+      aws_subnet.private-subnet-b.id,
+      aws_subnet.docdb-private-subnet-a.id,  # Newly added subnet
+      aws_subnet.docdb-private-subnet-b.id,
     ]
 
   tags = {

@@ -7,23 +7,43 @@ install_aws_dependencies() {
 cd AWS || exit
 
 # Run Terraform commands
-
-sudo snap install helm --classic
-sudo snap install aws-cli --classic
-
-
 terraform init
 terraform plan
 terraform apply -auto-approve
 
 
 #install saral app
-
 cd ../helm || exit
 
 helm install saral-ingress ./saral-ingress-chart
 
 helm install saral-backend ./saral-backend-chart    
+    
+}
+
+
+# Function to install dependencies for AWS-Monitoring_Stack
+install_aws-monitoring_stack_dependencies() {
+    echo "Installing Using aws-monitoring_stack..."
+    # Add commands to install AWS dependencies
+
+cd Monitoring-Stack
+ 
+cp * ../AWS/ || exit
+
+
+cd AWS || exit
+
+# Run Terraform commands
+terraform init
+terraform plan
+terraform apply -auto-approve
+
+
+#install saral app
+cd ../helm || exit
+
+helm install saral-monit ./saral-monitor-chart    
     
 }
 
@@ -34,9 +54,6 @@ install_gcp_dependencies() {
 cd GCP || exit
 
 # Run Terraform commands
-sudo snap install aws-cli --classic
-sudo snap install helm --classic
-
 terraform init
 terraform plan
 terraform apply -auto-approve
@@ -58,10 +75,6 @@ install_azure_dependencies() {
 cd Azure || exit
 
 # Run Terraform commands
-
-sudo snap install aws-cli --classic
-sudo snap install helm --classic
-
 terraform init
 terraform plan
 terraform apply -auto-approve
@@ -84,7 +97,8 @@ echo "Choose your cloud provider:"
 echo "1. AWS"
 echo "2. GCP"
 echo "3. Azure"
-read -p "Enter your choice [1-3]: " choice
+echo "4. AWS-Monitoring_Stack"
+read -p "Enter your choice [1-4]: " choice
 
 case $choice in
     1)
@@ -96,6 +110,9 @@ case $choice in
     3)
         install_azure_dependencies
         ;;
+    4)
+        install_aws-monitoring_stack_dependencies
+        ;;        
     *)
         echo "Invalid choice. Please enter a number between 1 and 3."
         ;;
